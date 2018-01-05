@@ -19,6 +19,14 @@
 		<sitemesh.version>3.0.0</sitemesh.version>
 	</properties>
 
+	<repositories>
+		<repository>
+			<id>maven-restlet</id>
+			<name>Public online Restlet repository</name>
+			<url>http://maven.restlet.org</url>
+		</repository>
+	</repositories>
+
 	<dependencies>
 		<!-- Spring框架必要的两个架包 -->
 		<dependency>
@@ -202,8 +210,7 @@
 			<artifactId>sitemesh</artifactId>
 			<version>${sitemesh.version}</version>
 		</dependency>
-		
-		
+
 		<!-- activity工作流引擎 -->
 		 <!-- activiti开始 -->
          <dependency>
@@ -296,11 +303,72 @@
 			<artifactId>base64</artifactId>
 			<version>2.3.8</version>
 		</dependency>
-		<!-- https://mvnrepository.com/artifact/org.apache.poi/poi-ooxml-schemas -->
+
 		<dependency>
-			<groupId>org.apache.poi</groupId>
-			<artifactId>poi-ooxml-schemas</artifactId>
-			<version>3.9</version>
+			<groupId>org.restlet.jee</groupId>
+			<artifactId>org.restlet</artifactId>
+			<version>2.3.12</version>
 		</dependency>
+
+
+		<dependency>
+			<groupId>org.restlet.jee</groupId>
+			<artifactId>org.restlet.ext.servlet</artifactId>
+			<version>2.3.12</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.restlet.jee</groupId>
+			<artifactId>org.restlet.ext.spring</artifactId>
+			<version>2.3.12</version>
+		</dependency>
+
+
+
 	</dependencies>
+
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.eclipse.jetty</groupId>
+				<artifactId>jetty-maven-plugin</artifactId>
+				<version>9.4.8.v20171121</version>
+				<configuration>
+					<!--
+					<connectors>
+						<connector implementation="org.eclipse.jetty.server.nio.SelectChannelConnector">
+							<port>8095</port>
+							<maxIdleTime>60000</maxIdleTime>
+						</connector>
+					</connectors>
+					-->
+					<stopKey>shutdown</stopKey>
+					<stopPort>8099</stopPort>
+					<!--
+                    <scanIntervalSeconds>2</scanIntervalSeconds>
+                    -->
+					<reload>manual</reload>
+					<dumpOnStart>true</dumpOnStart>
+					<webApp>
+						<contextPath>/${project.artifactId</contextPath>
+						<!--
+                        <resourceBases>
+                           <resourceBase>${project.basedir}/src/main/webapp</resourceBase>
+                           <resourceBase>${project.basedir}/commons</resourceBase>
+                       </resourceBases>
+                       -->
+					</webApp>
+					<requestLog implementation="org.eclipse.jetty.server.NCSARequestLog">
+						<filename>target/access-yyyy_mm_dd.log</filename>        <filenameDateFormat>yyyy_MM_dd</filenameDateFormat>
+						<logDateFormat>yyyy-MM-dd HH:mm:ss</logDateFormat>
+						<logTimeZone>GMT+8:00</logTimeZone>
+						<append>true</append>
+						<logServer>true</logServer>
+						<retainDays>120</retainDays>
+						<logCookies>true</logCookies>
+					</requestLog>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
 </project>
